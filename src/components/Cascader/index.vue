@@ -8,13 +8,18 @@
           alt=""
         />
       </div>
-      <div v-show="isActived">选择区</div>
+      <div v-show="isActived" class="cascader_options">
+       <div class="cascader_options_item">
+         <Options v-for="option in options" :key="option.value" :sourceOption="option"></Options>
+       </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
+import Options from './Options.vue'
 onMounted(() => {
   const cascader = document.querySelector(".cascader");
   document.addEventListener("click", (e) => {
@@ -25,6 +30,9 @@ let isActived = ref(false);
 const showItem = (e) => {
   //   console.log(e);
 };
+const chooseItem=()=>{
+
+}
 const options = [
   {
     value: "一级1",
@@ -50,6 +58,14 @@ const options = [
   },
   {
     value: "一级3",
+    children:[
+      {
+        value:'二级3'
+      },
+      {
+        value:'二级4'
+      }
+    ]
   },
 ];
 </script>
@@ -72,9 +88,19 @@ const options = [
     }
     & > img {
       padding-right: 10px;
+      padding-left: 10px;
       transition-property: all;
       width: 15px;
       height: 25px;
+      transform: rotate(v-bind("isActived? '180deg':'0deg'"));
+    }
+  }
+  &_options {
+    // width: 60px;
+    box-shadow: 10px 10px 5px rgb(215, 213, 213);
+    // display: flex;
+    &_item{
+      // border-right:1px solid salmon ;
     }
   }
 }
